@@ -1,6 +1,11 @@
+import * as dotenv from 'dotenv'
 import { Router } from "express";
+
 import { listenExpress, startExpress } from "../external/routes/express";
 import { UserFactory } from "./factories/user.factory";
+
+
+dotenv.config()
 
 const app = startExpress();
 
