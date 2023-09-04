@@ -8,7 +8,7 @@ export class AwsS3FileStorage implements FileStorage {
     async createFolder(folderName: string): Promise<string> {
         await new S3().putObject({
             Key: `${folderName}/`,
-            Bucket: `plank-user-images`,
+            Bucket: bucketName,
         });
         return `s3://${bucketName}/${folderName}/`;
     }
