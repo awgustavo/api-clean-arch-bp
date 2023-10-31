@@ -1,21 +1,24 @@
 provider "aws" {
-  region = "us-west-2" # Change this to your preferred region
+  region = "us-west-2"
 }
 
+locals {
+  service_release_tag = "latest"
+}
 resource "aws_ecr_repository" "clean_arch_repo" {
   name                 = "clean-arch-repo"
   image_tag_mutability = "IMMUTABLE"
 }
 
-resource "aws_apprunner_service" "api_lean_arch" {
+resource "aws_apprunner_service" "api_clean_arch" {
   service_name = "api-clean-arch-bp"
   source_configuration {
     image_repository {
       image_configuration {
         port = "8000"
       }
-      image_identifier      = aws_ecr_repository.clean_arch_repo.repository_url
-      image_repository_type = "ECR_PRIVATE"
+      image_identifier      = "public.ecr.aws/aws-containers/clean-arch-repo:latest"
+      image_repository_type = "ECR_PUBLIC"
     }
     auto_deployments_enabled = false
   }
