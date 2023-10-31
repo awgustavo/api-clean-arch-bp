@@ -65,7 +65,7 @@ resource "aws_apprunner_service" "api_clean_arch" {
       image_configuration {
         port = "3000"
       }
-      image_identifier      = "157233251312.dkr.ecr.us-west-2.amazonaws.com/clean-arch-repo:0.0.1"
+      image_identifier      = "157233251312.dkr.ecr.us-west-2.amazonaws.com/clean-arch-repo:${local.service_release_tag}"
       image_repository_type = "ECR"
     }
     auto_deployments_enabled = false
@@ -75,6 +75,6 @@ resource "aws_apprunner_service" "api_clean_arch" {
   }
 
   tags = {
-    Name = "example-apprunner-service"
+    Name = "apprunner-service"
   }
 }

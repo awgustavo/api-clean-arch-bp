@@ -1,6 +1,6 @@
 # This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
-name: Staging - Bullpen Backend
+name: Staging - BP Backend
 on:
   push:
     branches: [ "main" ]
@@ -8,7 +8,7 @@ on:
     # - '**'
 jobs:
   build-staging-bullpen:
-    name: Staging - Bullpen Backend
+    name: Staging - BP Backend
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -45,7 +45,7 @@ jobs:
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         ECR_REPOSITORY: clean-arch-repo
-        IMAGE_TAG: 0.0.1
+        IMAGE_TAG: latest
       run: |
         echo $ECR_REGISTRY
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
