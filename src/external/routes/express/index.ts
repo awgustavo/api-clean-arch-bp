@@ -3,6 +3,10 @@ import express, { Express } from 'express';
 export const startExpress = () => {
     const app = express();
     app.use(express.json());
+    app.get("/", (req, res) => {
+        res.json({ keepAlive: Date.now()});
+    })
+    
     return app;
 }
 

@@ -5,28 +5,7 @@ provider "aws" {
 locals {
   service_release_tag = "latest"
 }
-resource "aws_ecr_repository" "clean_arch_repo" {
-  name                 = "clean-arch-repo"
-  image_tag_mutability = "IMMUTABLE"
-}
 
-resource "aws_apprunner_service" "api_clean_arch" {
-  service_name = "api-clean-arch-bp"
-  source_configuration {
-    image_repository {
-      image_configuration {
-        port = "8000"
-      }
-      image_identifier      = "public.ecr.aws/aws-containers/clean-arch-repo:latest"
-      image_repository_type = "ECR_PUBLIC"
-    }
-    auto_deployments_enabled = false
-  }
-
-  tags = {
-    Name = "example-apprunner-service"
-  }
-}
 
 resource "aws_iam_role" "apprunner_role" {
   name = "apprunner-service-role"
@@ -38,7 +17,10 @@ resource "aws_iam_role" "apprunner_role" {
         Action = "sts:AssumeRole",
         Effect = "Allow",
         Principal = {
-          Service = "build.apprunner.amazonaws.com"
+          Service = [
+            "build.apprunner.amazonaws.com",
+            "tasks.apprunner.amazonaws.com"
+          ]
         }
       }
     ]
@@ -55,9 +37,11 @@ resource "aws_iam_policy" "ecr_policy" {
         Sid    = "VisualEditor0",
         Effect = "Allow",
         Action = [
+          "ecr:GetAuthorizationToken",
+          "ecr:BatchCheckLayerAvailability",
           "ecr:GetDownloadUrlForLayer",
           "ecr:BatchGetImage",
-          "ecr:BatchCheckLayerAvailability"
+          "ecr:DescribeImages"
         ],
         Resource = "*"
       }
@@ -68,4 +52,29 @@ resource "aws_iam_policy" "ecr_policy" {
 resource "aws_iam_role_policy_attachment" "ecr_policy_attachment" {
   policy_arn = aws_iam_policy.ecr_policy.arn
   role       = aws_iam_role.apprunner_role.name
+}
+resource "time_sleep" "waitrolecreate" {
+  depends_on = [aws_iam_role.apprunner_role]
+  create_duration = "60s"
+}
+resource "aws_apprunner_service" "api_clean_arch" {
+  depends_on = [time_sleep.waitrolecreate]
+  service_name = "api-clean-arch-bp"
+  source_configuration {
+    image_repository {
+      image_configuration {
+        port = "3000"
+      }
+      image_identifier      = "157233251312.dkr.ecr.us-west-2.amazonaws.com/clean-arch-repo:0.0.1"
+      image_repository_type = "ECR"
+    }
+    auto_deployments_enabled = false
+    authentication_configuration {
+      access_role_arn = aws_iam_role.apprunner_role.arn
+    }
+  }
+
+  tags = {
+    Name = "example-apprunner-service"
+  }
 }
