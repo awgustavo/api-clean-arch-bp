@@ -1,31 +1,5 @@
-# terraform {
-#   backend "remote" {
-#     organization = "aworg"
-#     workspaces {
-#       name = "api_clean_arch_bp"
-#     }
-#   }
-#   required_providers {
-#     aws = {
-#       source  = "hashicorp/aws"
-#       version = "~> 4.16"
-#     }
-#   }
-
-#   required_version = ">= 1.2.0"
-# }
-
-provider "aws" {
-  region = "us-west-2"
-}
-
-locals {
-  service_release_tag = "latest"
-}
-
-
 resource "aws_iam_role" "apprunner_role" {
-  name = "apprunner-service-role"
+  name = "${var.environment}_${var.service_name}_role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17",
@@ -45,7 +19,7 @@ resource "aws_iam_role" "apprunner_role" {
 }
 
 resource "aws_iam_policy" "ecr_policy" {
-  name        = "ecr_policy"
+  name        = "${var.environment}_${var.service_name}_ecr_policy"
   description = "Policy for accessing ECR"
   policy = jsonencode({
     Version = "2012-10-17",
@@ -74,15 +48,27 @@ resource "time_sleep" "waitrolecreate" {
   depends_on = [aws_iam_role.apprunner_role]
   create_duration = "60s"
 }
+
+resource "aws_apprunner_auto_scaling_configuration_version" "apprunner-autoscaling" {
+  auto_scaling_configuration_name = "${var.environment}_${var.service_name}_auto_scalling"
+  max_concurrency = 100
+  max_size        = var.autoscaling_max
+  min_size        = var.autoscaling_min
+
+  tags = {
+    Env = var.environment
+  }
+}
+
 resource "aws_apprunner_service" "api_clean_arch" {
   depends_on = [time_sleep.waitrolecreate]
-  service_name = "api-clean-arch-bp"
+  service_name = "${var.environment}_${var.service_name}"
   source_configuration {
     image_repository {
       image_configuration {
-        port = "3000"
+        port = var.port
       }
-      image_identifier      = "157233251312.dkr.ecr.us-west-2.amazonaws.com/clean-arch-repo:${local.service_release_tag}"
+      image_identifier      =  var.image
       image_repository_type = "ECR"
     }
     auto_deployments_enabled = false
@@ -90,8 +76,9 @@ resource "aws_apprunner_service" "api_clean_arch" {
       access_role_arn = aws_iam_role.apprunner_role.arn
     }
   }
+  auto_scaling_configuration_arn = aws_apprunner_auto_scaling_configuration_version.apprunner-autoscaling.arn
 
   tags = {
-    Name = "apprunner-service"
+    Env = var.environment
   }
 }
