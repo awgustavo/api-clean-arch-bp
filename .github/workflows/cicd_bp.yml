@@ -24,8 +24,8 @@ jobs:
     - name: Installing Dependencies
       run: npm i
     
-    # - name: Running tests
-    #  run: cd ./apps/backend && npm test
+    # - name: Create infra ECR
+    #  run: ....
     
     # - name: Linting
     #  run: cd ./apps/backend && npm run lint

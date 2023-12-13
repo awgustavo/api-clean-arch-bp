@@ -1,11 +1,9 @@
-import { UserData } from "./user.data";
-import { UserError } from "./user.error";
+import { type UserData } from './user.data';
 
 export class User {
+  constructor (private readonly userData: UserData) { }
 
-    constructor(private userData: UserData) { }
-
-    isValid(): boolean {
-        return !this.userData.name || !this.userData.email;
-    }
+  isValid (): boolean {
+    return !this.userData.name || !this.userData.email;
+  }
 }

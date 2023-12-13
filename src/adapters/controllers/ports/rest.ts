@@ -1,12 +1,11 @@
 export interface RestResponse {
-    statusCode: number
-    body?: any
-    error?: string
-  }
-  
-  export interface RestRequest {
-    body?: any
-    query?: any
-    params?: any
-  }
-  
+  statusCode: number
+  body?
+  error?
+}
+
+export interface RestRequest {
+  body?
+  query?
+  params?
+}

@@ -1,3 +1,3 @@
 export interface FileStorage {
-    createFolder(folderName: string): Promise<string>;  
+  createFolder: (folderName: string) => Promise<string>
 }

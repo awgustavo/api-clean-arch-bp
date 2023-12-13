@@ -1,17 +1,15 @@
-import * as dotenv from 'dotenv'
-import { Router } from "express";
+import * as dotenv from 'dotenv';
 
-import { listenExpress, startExpress } from "../external/routes/express";
-import { UserFactory } from "./factories/user.factory";
+import { listenExpress, startExpress } from '../external/routes/express';
+import { listenGraphQL } from '../external/routes/graphql';
+import { UserFactory } from './factories/user.factory';
 
-
-dotenv.config()
+dotenv.config();
 
 const app = startExpress();
 
-const router = Router();
-new UserFactory(router);
-app.use("/user", router);
-
+const userFactory = new UserFactory();
+app.use('/user', userFactory.routes);
 
 listenExpress(app, 3000);
+listenGraphQL(userFactory.resolvers, 4000);
