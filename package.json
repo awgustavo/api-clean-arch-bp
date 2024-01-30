@@ -6,6 +6,7 @@
   "scripts": {
     "bad": "ts-node-dev -r tsconfig-paths/register ./bad/dirty.ts",
     "dev": "ts-node-dev -r tsconfig-paths/register ./src/main/app.ts",
+    "start": "ts-node-dev -r tsconfig-paths/register ./src/main/app.ts",
     "test": "jest --coverage",
     "lint": "eslint --ext .ts . --fix"
   },
