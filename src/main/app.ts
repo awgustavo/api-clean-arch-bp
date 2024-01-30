@@ -11,5 +11,4 @@ const app = startExpress();
 const userFactory = new UserFactory();
 app.use('/user', userFactory.routes);
 
-listenExpress(app, 3000);
-listenGraphQL(userFactory.resolvers, 4000);
+listenExpress(app, 80);
