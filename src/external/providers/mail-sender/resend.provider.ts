@@ -1,5 +1,5 @@
-import { Resend } from 'resend';
-import { type MailAttachment, type MailSender } from '../../../use-cases/ports/mail-sender.ts';
+import { Resend } from "resend";
+import { type MailAttachment, type MailSender } from "../../../use-cases/ports/mail-sender.ts";
 
 export class ResendProvider implements MailSender {
   async sendEmail (mailTo: string[], mailFrom: string, subject: string, mailContent: string, attachments: MailAttachment[]): Promise<string> {

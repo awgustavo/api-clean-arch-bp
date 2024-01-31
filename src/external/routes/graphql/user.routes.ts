@@ -1,7 +1,7 @@
-import { type RestResponse } from '../../../adapters/controllers/ports/rest';
-import { type UserController } from '../../../adapters/controllers/user.controller';
-import { type UserData } from '../../../entities/user/user.data';
-import { type GenericRoutes } from '../ports/routes';
+import { type RestResponse } from "../../../adapters/controllers/ports/rest";
+import { type UserController } from "../../../adapters/controllers/user.controller";
+import { type UserData } from "../../../entities/user/user.data";
+import { type GenericRoutes } from "../ports/routes";
 
 const typeDefs = `#graphql
 type User {

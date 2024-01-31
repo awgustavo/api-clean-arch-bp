@@ -1,6 +1,6 @@
+import { RestRequest, RestResponse } from "../../adapters/controllers/ports/rest";
 import { type UserData } from "../../entities/user/user.data";
 import { type CreateUser } from "../../use-cases/create-user/create-user";
-import { type RestRequest, type RestResponse } from "./ports/rest";
 
 export class UserController {
   constructor (private readonly createUser: CreateUser) { }

@@ -1,6 +1,6 @@
-import express from 'express';
-import { S3 } from '@aws-sdk/client-s3';
-import { PrismaClient } from '@prisma/client';
+import express from "express";
+import { S3 } from "@aws-sdk/client-s3";
+import { PrismaClient } from "@prisma/client";
 
 const app = express();
 app.use(express.json());
@@ -9,20 +9,20 @@ const port = 3000;
 
 const prisma = new PrismaClient();
 
-app.post('/user', async (req, res) => {
+app.post("/user", async (req, res) => {
   try {
-    console.log('body', req.body);
+    console.log("body", req.body);
 
     const user = await prisma.user.create({
       data: req.body
     });
 
-    console.log('S3');
+    console.log("S3");
     const s3Response = await new S3().putObject({
       Key: `${req.body.email}/`,
-      Bucket: 'plank-user-images'
+      Bucket: "plank-user-images"
     });
-    console.log('S3', s3Response);
+    console.log("S3", s3Response);
 
     res.json(user);
   } catch (error) {
@@ -31,7 +31,7 @@ app.post('/user', async (req, res) => {
   }
 });
 
-app.get('/user', async (req, res) => {
+app.get("/user", async (req, res) => {
   const user = await prisma.user.findMany();
   res.json(user);
 });

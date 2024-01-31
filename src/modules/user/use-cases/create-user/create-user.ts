@@ -1,4 +1,4 @@
-import { type UserData } from "../../entities/user/user.data";
+import { UserData } from "../../entities/user.data";
 
 export interface CreateUser {
   createUser: (data: UserData) => Promise<UserData>

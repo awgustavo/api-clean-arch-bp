@@ -1,6 +1,6 @@
-import { PrismaClient } from '@prisma/client';
-import { type UserData } from '../../entities/user/user.data';
-import { type UserRepository } from '../../use-cases/ports/user.repository';
+import { PrismaClient } from "@prisma/client";
+import { type UserData } from "../../entities/user/user.data";
+import { type UserRepository } from "../../use-cases/ports/user.repository";
 
 export class PrismaUserRepository implements UserRepository {
   private readonly prisma: PrismaClient;

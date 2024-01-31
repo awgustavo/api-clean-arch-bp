@@ -1,6 +1,6 @@
+import { FileStorage } from "../../../../use-cases/ports/file-storage";
+import { UserRepository } from "../../../../use-cases/ports/user.repository";
 import { CreateUserUseCase } from "./create-user.use-case";
-import { UserRepository } from "../ports/user.repository";
-import { FileStorage } from "../ports/file-storage";
 
 jest.mock("../ports/user.repository");
 describe("Create User", () => {
