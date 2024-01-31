@@ -6,10 +6,11 @@
   "scripts": {
     "bad": "ts-node-dev -r tsconfig-paths/register ./bad/dirty.ts",
     "dev": "ts-node-dev -r tsconfig-paths/register ./src/main/app.ts",
-    "start": "node dist/index.js",
+    "start": "ts-node-dev -r tsconfig-paths/register ./src/main/app.ts",
+    "start-build": "node dist/index.js",
     "test": "jest --coverage",
     "lint": "eslint --ext .ts . --fix",
-    "build": "prisma generate && esbuild ./src/**/*.* --bundle --minify --sourcemap --platform=node --target=es2020 --outfile=index.js"
+    "esbuild": "prisma generate && esbuild ./src/**/*.* --bundle --minify --sourcemap --platform=node --target=es2020 --outfile=index.js"
   },
   "author": "",
   "license": "ISC",
