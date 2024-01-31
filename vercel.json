@@ -4,14 +4,15 @@
     "buildCommand": "npm run build",
     "builds": [
       {
-        "src": "src/main/app.ts",
-        "use": "@vercel/node"
+        "src": "dist/index.js",
+        "use": "@vercel/node",
+        "config": { "includeFiles": ["dist/**"] }
       }
     ],
     "routes": [
       {
         "src": "(.*)",
-        "dest": "src/main/app.ts"
+        "dest": "dist/index.js"
       }
     ]
   }
