@@ -6,3 +6,7 @@ node_modules
 coverage
 
 .env_test
+
+build
+index.js
+index.js.map
