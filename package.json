@@ -9,7 +9,7 @@
     "start": "node index.js",
     "test": "jest --coverage",
     "lint": "eslint --ext .ts . --fix",
-    "build": "esbuild ./src/**/*.* --bundle --minify --sourcemap --platform=node --target=es2020 --outfile=index.js"
+    "build": "prisma generate && esbuild ./src/**/*.* --bundle --minify --sourcemap --platform=node --target=es2020 --outfile=index.js"
   },
   "author": "",
   "license": "ISC",
