@@ -1,8 +1,8 @@
-import { User } from "../../entities/user/user";
-import { type UserData } from "../../entities/user/user.data";
-import { UserError } from "../../entities/user/user.error";
-import { type FileStorage } from "../ports/file-storage";
-import { type UserRepository } from "../ports/user.repository";
+import { FileStorage } from "../../../../use-cases/ports/file-storage";
+import { type UserRepository } from "../../../../use-cases/ports/user.repository";
+import { User } from "../../entities/user";
+import { UserData } from "../../entities/user.data";
+import { UserError } from "../../entities/user.error";
 import { type CreateUser } from "./create-user";
 
 export class CreateUserUseCase implements CreateUser {

@@ -9,8 +9,9 @@
     "start": "prisma generate && ts-node-dev -r tsconfig-paths/register ./src/main/app.ts",
     "start-build": "node dist/index.js",
     "test": "jest --coverage",
-    "lint": "eslint --ext .ts . --fix",
-    "esbuild": "prisma generate && esbuild ./src/**/*.* --bundle --minify --sourcemap --platform=node --target=es2020 --outfile=index.js"
+    "lint:fix": "eslint --ext .ts . --fix",
+    "lint": "eslint --ext .ts .",
+    "build": "esbuild ./src/**/*.* --bundle --minify --sourcemap --platform=node --target=es2020 --outfile=index.js"
   },
   "author": "",
   "license": "ISC",

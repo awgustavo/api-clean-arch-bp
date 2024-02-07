@@ -3,9 +3,9 @@
 name: Staging - BP Backend
 on:
   push:
-    branches: [ "main" ]
-    # paths:
-    # - '**'
+  pull_request:
+    branches:
+      - main
 jobs:
   build-staging-bullpen:
     name: Staging - BP Backend
