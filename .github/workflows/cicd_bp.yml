@@ -1,70 +1,69 @@
 # This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
-name: Staging - BP Backend
-on:
-  push:
-    branches: [ "main" ]
-    # paths:
-    # - '**'
-jobs:
-  build-staging-bullpen:
-    name: Staging - BP Backend
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [18.x]
-    steps:
-    ## Checkout the code
-    - uses: actions/checkout@v3
-    
-    ## Set up Node.js
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    
-    ## Install dependencies
-    - name: Installing Dependencies
-      run: npm i
-    
-    ## Check for vulnerabilities
-    - name: Checking for Vulnerabilities
-      run: npm audit --audit-level=moderate
-    
-    ## Check for lint problems
-    - name: Checking for lint problems
-      run: npm run lint
+  name: Deploy - BP Backend
+  on:
+    push:
+      branches: [ "main" ]
+  jobs:
+    deploy-bp-backend:
+      name: Deploy - BP Backend
+      runs-on: ubuntu-latest
+      strategy:
+        matrix:
+          node-version: [18.x]
+      steps:
+      ## Checkout the code
+      - uses: actions/checkout@v3
+      
+      ## Set up Node.js
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+      
+      ## Ensure that all dependencies are installed and accessible 
+      ## in case of private packages
+      - name: Installing Dependencies
+        run: npm i
+      
+      ## Ensure that our dependencies are up to date do not have 
+      ## any vulnerabilities that could be exploited
+      - name: Checking for Vulnerabilities
+        run: npm audit --audit-level=moderate
+      
+      ## Ensure that all the lint rules are being followed
+      - name: Checking for lint problems
+        run: npm run lint
 
-    ## Run the tests
-    - name: Running the tests
-      run: npm test
+      ## Ensure that all the tests are passing
+      - name: Running the tests
+        run: npm test
 
-    ## Build the source code
-    - name: Checking for lint problems
-      run: npm run build
+      ## Ensure that the code is building correctly and that there are no errors
+      - name: Checking for lint problems
+        run: npm run build
 
-    ## Setup AWS CLI and credentials
-    - name: Configure AWS Credentials
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: us-west-2 
-    
-    ## Login to Amazon ECR
-    - name: Login to Amazon ECR
-      id: login-ecr
-      uses: aws-actions/amazon-ecr-login@v1
-    
-    ## Build, tag, and push image to Amazon ECR
-    - name: Build, tag, and push image to Amazon ECR
-      env:
-        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        ECR_REPOSITORY: clean-arch-repo
-        IMAGE_TAG: latest
-      run: |
-        echo $ECR_REGISTRY
-        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-    
+      # ## Setup AWS CLI and credentials
+      # - name: Configure AWS Credentials
+      #   uses: aws-actions/configure-aws-credentials@v1
+      #   with:
+      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     aws-region: us-west-2 
+      
+      # ## Login to Amazon ECR
+      # - name: Login to Amazon ECR
+      #   id: login-ecr
+      #   uses: aws-actions/amazon-ecr-login@v1
+      
+      # ## Build, tag, and push image to Amazon ECR
+      # - name: Build, tag, and push image to Amazon ECR
+      #   env:
+      #     ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+      #     ECR_REPOSITORY: clean-arch-repo
+      #     IMAGE_TAG: latest
+      #   run: |
+      #     echo $ECR_REGISTRY
+      #     docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+      #     docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG  

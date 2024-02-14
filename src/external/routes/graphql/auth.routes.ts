@@ -13,7 +13,7 @@ interface Resolver {
     Mutations?
   }
 }
-export class UserGraphQLRoutes implements GraphqlRoutes {
+export class AuthGraphQLRoutes implements GraphqlRoutes {
   constructor (private readonly userController: UserController) {
 
   }
@@ -30,18 +30,18 @@ export class UserGraphQLRoutes implements GraphqlRoutes {
       }
       
       type Query {
-        user: [User]
+        authenticate: [User]
       }
       
       type Mutation {
-        create(user: SaveUser): User
+        refreshToken(user: SaveUser): User
       }
     `;
   }
   getResolvers() {
     return {
       Query: {
-        user: async (_, body: UserData) => {
+        authenticate: async (_, body: UserData) => {
           const userResponse: RestResponse = await this.userController.findByFilter({ body });
           if (userResponse.error) return userResponse.error;
 
@@ -49,7 +49,7 @@ export class UserGraphQLRoutes implements GraphqlRoutes {
         }
       },
       Mutation: {
-        create: async (parent, {user}): Promise<UserData | string> => {
+        refreshToken: async (parent, {user}): Promise<UserData | string> => {
           console.log("parent", parent);
           const userPayload  = user as UserData;
           console.log("user", userPayload.email + userPayload.name);  
