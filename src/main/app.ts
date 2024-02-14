@@ -16,12 +16,12 @@ app.use("/auth", authFactory.httpRoutes);
 listenExpress(app, 80);
 
 listenGraphQL(
-    [
-        userFactory.graphQLRoute.getResolvers(),
-        authFactory.graphQLRoute.getResolvers(),
-    ], 
-    [
-        userFactory.graphQLRoute.getTypeDefs(),
-        authFactory.graphQLRoute.getTypeDefs(),
-    ], 
-    4000);
+  [
+    userFactory.graphQLRoute.getResolvers(),
+    authFactory.graphQLRoute.getResolvers(),
+  ],
+  [
+    userFactory.graphQLRoute.getTypeDefs(),
+    authFactory.graphQLRoute.getTypeDefs(),
+  ],
+  4000);

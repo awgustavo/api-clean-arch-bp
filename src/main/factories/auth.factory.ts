@@ -3,7 +3,6 @@ import { AwsS3FileStorage } from "../../external/providers/storage/aws-s3.provid
 import { PrismaUserRepository } from "../../external/repositories/prisma.user.repository";
 import { UserRoutes } from "../../external/routes/express/user.routes";
 import { AuthGraphQLRoutes } from "../../external/routes/graphql/auth.routes";
-import { UserGraphQLRoutes } from "../../external/routes/graphql/user.routes";
 import { CreateUserUseCase } from "../../use-cases/create-user/create-user.use-case";
 
 export class AuthFactory {
@@ -17,6 +16,6 @@ export class AuthFactory {
     const createUserUseCase = new CreateUserUseCase(this.repository, fileStorage);
     const userController = new UserController(createUserUseCase);
     this.httpRoutes = new UserRoutes(userController).registerRoutes();
-    this.graphQLRoute = new AuthGraphQLRoutes(userController)
+    this.graphQLRoute = new AuthGraphQLRoutes(userController);
   }
 }

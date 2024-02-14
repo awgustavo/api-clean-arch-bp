@@ -16,6 +16,6 @@ export class UserFactory {
     const createUserUseCase = new CreateUserUseCase(this.repository, fileStorage);
     const userController = new UserController(createUserUseCase);
     this.httpRoutes = new UserRoutes(userController).registerRoutes();
-    this.graphQLRoute = new UserGraphQLRoutes(userController)
+    this.graphQLRoute = new UserGraphQLRoutes(userController);
   }
 }
