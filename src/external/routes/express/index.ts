@@ -12,6 +12,6 @@ export const startExpress = () => {
 
 export const listenExpress = (app: Express, port: number) => {
   app.listen(port, () => {
-    console.log(`Express is listening at http://localhost:${port}`);
+    console.log(`🚀 Express is listening at http://localhost:${port}`);
   });
 };

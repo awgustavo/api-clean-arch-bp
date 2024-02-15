@@ -13,7 +13,7 @@ const userFactory = new UserFactory();
 app.use("/user", userFactory.httpRoutes);
 const authFactory = new AuthFactory();
 app.use("/auth", authFactory.httpRoutes);
-listenExpress(app, 80);
+listenExpress(app, parseInt(process.env.API_PORT) || 80);
 
 listenGraphQL(
   [
@@ -24,4 +24,4 @@ listenGraphQL(
     userFactory.graphQLRoute.getTypeDefs(),
     authFactory.graphQLRoute.getTypeDefs(),
   ],
-  4000);
+  parseInt(process.env.GRAPHQL_PORT) || 4000);
