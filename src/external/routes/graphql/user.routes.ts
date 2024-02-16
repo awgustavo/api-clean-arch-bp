@@ -28,11 +28,8 @@ export class UserGraphQLRoutes implements GraphqlRoutes {
     `;
   }
 
-  async create (parent, {user}): Promise<UserData | string> {
-    console.log("parent", parent);
-    const userPayload  = user as UserData;
-    console.log("user", userPayload.email + userPayload.name);
-    const userResponse: RestResponse = await this.userController.create({ body: userPayload});
+  async create (parent, {user}): Promise<UserData | string> {;
+    const userResponse: RestResponse = await this.userController.create({ body: user });
     if (userResponse.error) return userResponse.error;
 
     return userResponse.body;

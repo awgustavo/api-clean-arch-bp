@@ -36,9 +36,13 @@
       - name: Checking for lint problems
         run: npm run lint
 
-      ## Ensure that all the tests are passing
-      - name: Running the tests
-        run: npm test
+      ## Ensure that all the use casestests are passing
+      - name: Running the use case tests 
+        run: npm run test:use-case
+
+      ## Ensure that all the arch tests are passing
+      - name: Running the arch tests 
+        run: npm run test:arch
 
       ## Ensure that the code is building correctly and that there are no errors
       - name: Checking for lint problems
