@@ -11,7 +11,8 @@
     "test": "jest --coverage",
     "lint:fix": "eslint --ext .ts . --fix",
     "lint": "eslint --ext .ts .",
-    "build": "esbuild ./src/**/*.* --bundle --minify --sourcemap --platform=node --target=es2020 --outfile=index.js"
+    "build": "esbuild ./src/**/*.* --bundle --minify --sourcemap --platform=node --target=es2020 --outfile=index.js",
+    "prepare": "husky"
   },
   "author": "",
   "license": "ISC",
@@ -27,6 +28,7 @@
     "eslint-plugin-n": "^16.4.0",
     "eslint-plugin-promise": "^6.1.1",
     "eslint-plugin-sonar": "^0.13.0",
+    "husky": "^9.0.11",
     "jest": "^29.7.0",
     "prisma": "^5.2.0",
     "ts-auto-mock": "^3.7.1",
