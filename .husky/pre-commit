@@ -1,4 +1,4 @@
 npm run lint
-npm test:use-case
-npm test:arch
+npm run test:use-case
+npm run test:arch
 npm run build
