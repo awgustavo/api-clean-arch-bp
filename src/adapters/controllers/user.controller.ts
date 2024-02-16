@@ -1,13 +1,15 @@
 import { type UserData } from "../../entities/user/user.data";
-import { type CreateUser } from "../../use-cases/create-user/create-user";
+import { CreateUserUseCase } from "../../use-cases/user/create-user.use-case";
+import { FindByFilterUseCase } from "../../use-cases/user/find-by-filter.use-case";
 import { type RestRequest, type RestResponse } from "./ports/rest";
 
 export class UserController {
-  constructor (private readonly createUser: CreateUser) { }
+  constructor (private readonly createUserUseCase: CreateUserUseCase,
+              private readonly findByFilterUseCase: FindByFilterUseCase) { }
 
   async create (request: RestRequest): Promise<RestResponse> {
     try {
-      const createdUser = await this.createUser.createUser(request.body as UserData);
+      const createdUser = await this.createUserUseCase.execute(request.body as UserData);
       return {
         body: createdUser,
         statusCode: 201
@@ -22,7 +24,7 @@ export class UserController {
 
   async findByFilter (request: RestRequest): Promise<RestResponse> {
     try {
-      const users = await this.createUser.findByFilter(request.body as UserData);
+      const users = await this.findByFilterUseCase.execute(request.body as UserData);
       return {
         body: users,
         statusCode: 200

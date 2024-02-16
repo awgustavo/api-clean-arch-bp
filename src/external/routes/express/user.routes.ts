@@ -8,20 +8,22 @@ export class UserRoutes implements GenericRoutes<Router> {
 
   }
 
+  async create (request: Request, response: Response) {
+    const userResponse: RestResponse = await this.userController.create({ body: request.body });
+    if (userResponse.error) return response.status(userResponse.statusCode).send(userResponse.error);
+
+    response.json(userResponse.body);
+  }
+  async findByFilter (request: Request, response: Response) {
+    const userResponse: RestResponse = await this.userController.findByFilter({ body: request.query });
+    if (userResponse.error) return response.status(userResponse.statusCode).send(userResponse.error);
+
+    response.json(userResponse.body);
+  }
   registerRoutes (): Router {
     const router = Router();
-    router.post("/", async (request: Request, response: Response) => {
-      const userResponse: RestResponse = await this.userController.create({ body: request.body });
-      if (userResponse.error) return response.status(userResponse.statusCode).send(userResponse.error);
-
-      response.json(userResponse.body);
-    });
-    router.get("/", async (request: Request, response: Response) => {
-      const userResponse: RestResponse = await this.userController.findByFilter({ body: request.query });
-      if (userResponse.error) return response.status(userResponse.statusCode).send(userResponse.error);
-
-      response.json(userResponse.body);
-    });
+    router.post("/", this.create.bind(this));
+    router.get("/", this.findByFilter.bind(this));
     return router;
   }
 }

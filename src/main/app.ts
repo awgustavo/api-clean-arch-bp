@@ -24,4 +24,5 @@ listenGraphQL(
     userFactory.graphQLRoute.getTypeDefs(),
     authFactory.graphQLRoute.getTypeDefs(),
   ],
-  parseInt(process.env.GRAPHQL_PORT) || 4000);
+  parseInt(process.env.GRAPHQL_PORT) || 4000
+);

@@ -27,26 +27,31 @@ export class UserGraphQLRoutes implements GraphqlRoutes {
       }
     `;
   }
+
+  async create (parent, {user}): Promise<UserData | string> {
+    console.log("parent", parent);
+    const userPayload  = user as UserData;
+    console.log("user", userPayload.email + userPayload.name);
+    const userResponse: RestResponse = await this.userController.create({ body: userPayload});
+    if (userResponse.error) return userResponse.error;
+
+    return userResponse.body;
+  }
+
+  async getUser (_, body: UserData) {
+    const userResponse: RestResponse = await this.userController.findByFilter({ body });
+    if (userResponse.error) return userResponse.error;
+
+    return userResponse.body;
+  }
+
   getResolvers() {
     return {
       Query: {
-        user: async (_, body: UserData) => {
-          const userResponse: RestResponse = await this.userController.findByFilter({ body });
-          if (userResponse.error) return userResponse.error;
-
-          return userResponse.body;
-        }
+        user: this.getUser.bind(this)
       },
       Mutation: {
-        create: async (parent, {user}): Promise<UserData | string> => {
-          console.log("parent", parent);
-          const userPayload  = user as UserData;
-          console.log("user", userPayload.email + userPayload.name);
-          const userResponse: RestResponse = await this.userController.create({ body: userPayload});
-          if (userResponse.error) return userResponse.error;
-
-          return userResponse.body;
-        }
+        create: this.create.bind(this)
       }
 
     };
