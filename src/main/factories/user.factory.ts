@@ -1,5 +1,5 @@
 import { UserController } from "../../adapters/controllers/user.controller";
-import { AwsS3FileStorage } from "../../external/providers/storage/aws-s3.provider";
+//import { AwsS3FileStorage } from "../../external/providers/storage/aws-s3.provider";
 import { AzureStorageFileStorage } from "../../external/providers/storage/azure-storage.provider";
 import { PrismaUserRepository } from "../../external/repositories/prisma.user.repository";
 import { UserRoutes } from "../../external/routes/express/user.routes";

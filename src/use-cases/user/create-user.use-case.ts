@@ -7,7 +7,7 @@ import { BaseOrmRepository } from "../ports/base-orm.repository";
 import { type FileStorage } from "../ports/file-storage";
 
 export class CreateUserUseCase implements BaseUseCase<UserData, Promise<UserData>>  {
-  
+
   constructor (private readonly userRepository: BaseOrmRepository<UserData, UserData>,
                private readonly fileStorage: FileStorage) {
   }
