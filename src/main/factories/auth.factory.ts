@@ -1,4 +1,5 @@
 import { UserController } from "../../adapters/controllers/user.controller";
+import { ResendProvider } from "../../external/providers/mail-sender/resend.provider";
 import { AwsS3FileStorage } from "../../external/providers/storage/aws-s3.provider";
 import { PrismaUserRepository } from "../../external/repositories/prisma.user.repository";
 import { UserRoutes } from "../../external/routes/express/user.routes";
@@ -14,7 +15,9 @@ export class AuthFactory {
   constructor () {
     this.repository = new PrismaUserRepository();
     const fileStorage = new AwsS3FileStorage();
-    const createUserUseCase = new CreateUserUseCase(this.repository, fileStorage);
+
+    const mailSenderResend = new ResendProvider();
+    const createUserUseCase = new CreateUserUseCase(this.repository, fileStorage, mailSenderResend);
     const findByFilterUserUseCase = new FindByFilterUseCase(this.repository);
     const userController = new UserController(createUserUseCase, findByFilterUserUseCase);
     this.httpRoutes = new UserRoutes(userController).registerRoutes();

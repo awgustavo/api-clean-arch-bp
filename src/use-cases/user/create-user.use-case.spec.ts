@@ -2,6 +2,7 @@ import { CreateUserUseCase } from "./create-user.use-case";
 import { FileStorage } from "../ports/file-storage";
 import { BaseOrmRepository } from "../ports/base-orm.repository";
 import { UserData } from "../../entities/user/user.data";
+import { MailSender } from "../ports/mail-sender.ts";
 
 jest.mock("../ports/base-orm.repository");
 describe("Create User", () => {
@@ -20,8 +21,8 @@ describe("Create User", () => {
 
   it("should create a user", async () => {
     const fileStorage: FileStorage = { createFolder: jest.fn() };
-
-    const createdUserUseCase = new CreateUserUseCase(usersRepository, fileStorage);
+    const mailSender: MailSender = { sendEmail: jest.fn() };
+    const createdUserUseCase = new CreateUserUseCase(usersRepository, fileStorage, mailSender);
     const createdUser = await createdUserUseCase.execute(user);
 
     expect(createdUser).toMatchInlineSnapshot(`
