@@ -1,11 +1,19 @@
 import { type UserData } from "../../entities/user/user.data";
+import { CustomInject, CustomInjectable } from "../../shared/dependency-injection/dependency-injection";
+import { DependencyInjectionTypes } from "../../shared/dependency-injection/dependency-injection-types";
+import { BaseController } from "../../shared/interfaces/base-controller";
 import { CreateUserUseCase } from "../../use-cases/user/create-user.use-case";
 import { FindByFilterUseCase } from "../../use-cases/user/find-by-filter.use-case";
 import { type RestRequest, type RestResponse } from "./ports/rest";
 
-export class UserController {
-  constructor (private readonly createUserUseCase: CreateUserUseCase,
-              private readonly findByFilterUseCase: FindByFilterUseCase) { }
+@CustomInjectable()
+export class UserController implements BaseController {
+  constructor (
+    @CustomInject(DependencyInjectionTypes.CreateUserUseCase)
+    private readonly createUserUseCase: CreateUserUseCase,
+    @CustomInject(DependencyInjectionTypes.FindByFilterUseCase)
+    private readonly findByFilterUseCase: FindByFilterUseCase
+  ) { }
 
   async create (request: RestRequest): Promise<RestResponse> {
     try {

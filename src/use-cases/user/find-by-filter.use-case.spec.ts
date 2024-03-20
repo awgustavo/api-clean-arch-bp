@@ -1,3 +1,4 @@
+import "reflect-metadata";
 import { FindByFilterUseCase } from "./find-by-filter.use-case";
 import { BaseOrmRepository } from "../ports/base-orm.repository";
 import { UserData } from "../../entities/user/user.data";

@@ -1,3 +1,4 @@
+import "reflect-metadata";
 import * as dotenv from "dotenv";
 
 import { listenExpress, startExpress } from "../external/routes/express";
