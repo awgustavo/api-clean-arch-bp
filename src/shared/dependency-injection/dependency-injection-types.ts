@@ -1,4 +1,5 @@
 export const DependencyInjectionTypes = {
+  PrismaClient  : Symbol.for("PrismaClient"),
   MailSender: Symbol.for("MailSender"),
   FileStorage: Symbol.for("FileStorage"),
   CreateUserUseCase: Symbol.for("CreateUserUseCase"),

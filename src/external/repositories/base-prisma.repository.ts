@@ -19,7 +19,7 @@ export abstract class BasePrismaRepository<Entity, Filter> implements BaseOrmRep
   async update(id: string | number, data: Entity): Promise<Entity> {
     return await this.entity.update({
       where: { id: id as number },
-      data: data
+      data
     }) as Entity;
   }
 

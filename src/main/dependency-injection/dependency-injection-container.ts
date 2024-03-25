@@ -15,20 +15,23 @@ import { BaseController } from "../../shared/interfaces/base-controller";
 import { CreateUserUseCase } from "../../use-cases/user/create-user.use-case";
 import { FindByFilterUseCase } from "../../use-cases/user/find-by-filter.use-case";
 import { UserController } from "../../adapters/controllers/user.controller";
+//import { Auth0Provider } from "../../external/providers/authentication/auth0";
+import { PrismaClient } from "@prisma/client";
 
 const container = new Container();
 
+container.bind<PrismaClient>(DependencyInjectionTypes.PrismaClient).toConstantValue(new PrismaClient());
 // Providers
 container.bind<FileStorage>(DependencyInjectionTypes.FileStorage).to(AwsS3FileStorage).inSingletonScope();
-container.bind<MailSender>(DependencyInjectionTypes.MailSender).to(ResendProvider);
-container.bind<Authenticator>(DependencyInjectionTypes.Authenticator).to(SupabaseAuthProvider);
+container.bind<MailSender>(DependencyInjectionTypes.MailSender).to(ResendProvider).inSingletonScope();
+container.bind<Authenticator>(DependencyInjectionTypes.Authenticator).to(SupabaseAuthProvider).inSingletonScope();
 
 // Repositories
-container.bind<BasePrismaRepository<UserData, UserData>>(DependencyInjectionTypes.UserRepository).to(UserRepository);
+container.bind<BasePrismaRepository<UserData, UserData>>(DependencyInjectionTypes.UserRepository).to(UserRepository).inSingletonScope();
 
 //Use Cases
-container.bind<BaseUseCase<UserData, Promise<UserData>>>(DependencyInjectionTypes.CreateUserUseCase).to(CreateUserUseCase);
-container.bind<BaseUseCase<UserData, Promise<UserData[]>>>(DependencyInjectionTypes.FindByFilterUseCase).to(FindByFilterUseCase);
+container.bind<BaseUseCase<UserData, Promise<UserData>>>(DependencyInjectionTypes.CreateUserUseCase).to(CreateUserUseCase).inSingletonScope();
+container.bind<BaseUseCase<UserData, Promise<UserData[]>>>(DependencyInjectionTypes.FindByFilterUseCase).to(FindByFilterUseCase).inSingletonScope();
 
 // Controllers
 container.bind<BaseController>(DependencyInjectionTypes.UserController).to(UserController);
