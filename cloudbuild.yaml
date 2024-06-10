@@ -6,10 +6,7 @@ steps:
       - '-c'
       - |
         echo "Setting environment variables"
-        export MY_VAR1='value1'
-        export MY_VAR2='value2'
-        echo "MY_VAR1=$MY_VAR1"
-        echo "MY_VAR2=$MY_VAR2"
+        export MY_VAR3='value2'
     id: 'Set environment variables'
 
   # Step 2: Run build command
