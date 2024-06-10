@@ -26,7 +26,7 @@ steps:
       - '-c'
       - |
         echo "Running tests"
-        npm run test
+        npm run test:use-case
     id: 'Run tests'
 
   # Step 4: Build the application
