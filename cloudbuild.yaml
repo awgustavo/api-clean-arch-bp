@@ -1,30 +1,41 @@
 steps:
-  # Step 1: Set environment variables
-  - name: 'gcr.io/cloud-builders/gcloud'
+  # Step 1: Install dependencies
+  - name: 'node:16'
     entrypoint: 'bash'
     args:
       - '-c'
       - |
-        echo "Setting environment variables"
-        export MY_VAR3='value2'
-    id: 'Set environment variables'
+        echo "Installing dependencies"
+        npm install
+    id: 'Install dependencies'
 
-
-  # Step 2: Run npm install
-  - name: 'gcr.io/cloud-builders/docker'
-    args: ['npm', 'install']
-    id: 'Run build comm',and'
-
-
-  # Step 2: Run build command
-  - name: 'gcr.io/cloud-builders/docker'
-    args: ['npm', 'run', 'build']
-    id: 'Run build comm',and'
-
-  # Step 3: List the current directory contents
-  - name: 'gcr.io/cloud-builders/gcloud'
+  # Step 2: Run linter
+  - name: 'node:16'
     entrypoint: 'bash'
     args:
       - '-c'
-      - 'echo $ENV123'
-    id: 'List directory contents'
+      - |
+        echo "Running linter"
+        npm run lint
+    id: 'Run linter'
+
+  # Step 3: Run tests
+  - name: 'node:16'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        echo "Running tests"
+        npm run test
+    id: 'Run tests'
+
+  # Step 4: Build the application
+  - name: 'node:16'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        echo "Building application"
+        npm run build
+    id: 'Build application'
+
