@@ -9,6 +9,8 @@ steps:
         export env1=testing_env_var
         echo "Env var:"
         echo $env1
+        echo "Env var global:"
+        echo $_ENV_VAR
     id: 'Env vars'
   # Step 1: Install dependencies
   - name: 'node:16'
@@ -20,6 +22,8 @@ steps:
         npm install
         echo "Env var:"
         echo $env1
+        echo "Env var global:"
+        echo $_ENV_VAR
     id: 'Install dependencies'
 
   # Step 2: Run linter
