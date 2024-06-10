@@ -6,9 +6,9 @@ steps:
       - '-c'
       - |
         echo "Setting env vars"
-        export ENV1=testing_env_var
+        export env1=testing_env_var
         echo "Env var:"
-        echo $ENV1
+        echo $env1
     id: 'Install dependencies'
   # Step 1: Install dependencies
   - name: 'node:16'
@@ -19,7 +19,7 @@ steps:
         echo "Installing dependencies"
         npm install
         echo "Env var:"
-        echo $ENV1
+        echo $env1
     id: 'Install dependencies'
 
   # Step 2: Run linter
