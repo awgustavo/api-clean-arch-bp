@@ -1,0 +1,29 @@
+steps:
+  # Step 1: Set environment variables
+  - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        echo "Setting environment variables"
+        export MY_VAR1='value1'
+        export MY_VAR2='value2'
+        echo "MY_VAR1=$MY_VAR1"
+        echo "MY_VAR2=$MY_VAR2"
+    id: 'Set environment variables'
+
+  # Step 2: Run build command
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/my-app:latest', '.']
+    env:
+      - 'MY_VAR1=value1'
+      - 'MY_VAR2=value2'
+    id: 'Run build command'
+
+  # Step 3: List the current directory contents
+  - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - 'ls -al'
+    id: 'List directory contents'
