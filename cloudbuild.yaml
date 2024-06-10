@@ -9,18 +9,22 @@ steps:
         export MY_VAR3='value2'
     id: 'Set environment variables'
 
+
+  # Step 2: Run npm install
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['npm', 'install']
+    id: 'Run build comm',and'
+
+
   # Step 2: Run build command
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'gcr.io/$PROJECT_ID/my-app:latest', '.']
-    env:
-      - 'MY_VAR1=value1'
-      - 'MY_VAR2=value2'
-    id: 'Run build command'
+    args: ['npm', 'run', 'build']
+    id: 'Run build comm',and'
 
   # Step 3: List the current directory contents
   - name: 'gcr.io/cloud-builders/gcloud'
     entrypoint: 'bash'
     args:
       - '-c'
-      - 'ls -al'
+      - 'echo $ENV123'
     id: 'List directory contents'
