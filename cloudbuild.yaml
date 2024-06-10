@@ -9,7 +9,7 @@ steps:
         export env1=testing_env_var
         echo "Env var:"
         echo $env1
-    id: 'Install dependencies'
+    id: 'Env vars'
   # Step 1: Install dependencies
   - name: 'node:16'
     entrypoint: 'bash'
