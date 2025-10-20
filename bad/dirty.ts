@@ -1,3 +1,4 @@
+// This this file is a sample of bad practices
 import express from "express";
 import { S3 } from "@aws-sdk/client-s3";
 import { PrismaClient } from "@prisma/client";
